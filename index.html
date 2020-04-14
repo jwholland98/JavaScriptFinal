@@ -1,31 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="stylesheet.css">
-</head>
-<body>
-    <script src="node_modules\three\build\three.min.js"></script>
-    <script>
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        camera.position.z = 5;
-
-        renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setClearColor("#e5e5e5");
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        document.body.appendChild( renderer.domElement );
-
-        window.addEventListener('resize', () => {
-            renderer.setSize( window.innerWidth, window.innerHeight );
-            camera.aspect = window.innerWidth / window.innerHeight;
-
-            camera.updatePojectionMatrix();
-        })
-
-        renderer.render( scene, camera );
-    </script>
-</body>
+<html>
+	<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My first three.js app</title>
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	</head>
+	<body>
+            <script src="three\build\three.min.js"></script>
+            <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.min.js"></script>-->
+            <script src="three\examples\js\loaders\OBJLoader.js"></script>
+            <script src="three\examples\js\controls\OrbitControls.js"></script>
+            <script src="3d.js"></script>
+		<script>
+                  init();
+                  makeShape("sphere");
+                  makeShape("cube");
+                  loadObj('models/human.obj');
+                  animate();
+		</script>
+	</body>
 </html>
