@@ -1,3 +1,4 @@
+import { VRButton } from './three/examples/jsm/webxr/VRButton.js';
 
 var scene, camera, renderer;
 function init(){
@@ -8,6 +9,8 @@ function init(){
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setClearColor("#e5e5e5");
     renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( VRButton.createButton( renderer ) );
+    renderer.xr.enabled = true;
     document.body.appendChild( renderer.domElement );
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -86,6 +89,15 @@ function loadObj(path){
 function animate() {
     shapes[0].rotation.x += 0.001;
     shapes[1].rotation.y += 0.01;
-    requestAnimationFrame( animate );
-    renderer.render( scene, camera );
+    renderer.setAnimationLoop( function () {
+
+        renderer.render( scene, camera );
+    
+    } );
 }
+
+init();
+makeShape("sphere");
+makeShape("cube");
+loadObj('models/human.obj');
+animate();
