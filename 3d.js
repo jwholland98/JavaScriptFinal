@@ -2,16 +2,29 @@ import { VRButton } from './three/examples/jsm/webxr/VRButton.js';
 
 var scene, camera, renderer;
 function init(){
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.z = 30;
-
     renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setClearColor("#e5e5e5");
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( VRButton.createButton( renderer ) );
     renderer.xr.enabled = true;
+    //renderer.setClearColor("#858585");
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild(VRButton.createButton(renderer));
+
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera.position.set(0, 20, 30);
+
     document.body.appendChild( renderer.domElement );
+
+    scene = new THREE.Scene();{
+        const loader = new THREE.CubeTextureLoader();
+        const texture = loader.load([
+          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+        ]);
+        scene.background = texture;
+      }
 
     var controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDampening = true;
@@ -90,8 +103,12 @@ function animate() {
     } );
 }
 
-init();
-makeShape("sphere");
-makeShape("cube");
-loadObj('models/human.obj');
-animate();
+function main(){
+    init();
+    makeShape("sphere");
+    makeShape("cube");
+    loadObj('models/human.obj');
+    animate();
+}
+
+main()
