@@ -1,4 +1,4 @@
-import { VRButton } from './three/examples/jsm/webxr/VRButton.js';
+import { VRButton } from './three/examples/jsm/webxr/CustomVRButton.js';
 
 var scene, camera, renderer;
 function init(){
