@@ -61,6 +61,7 @@ function makeShape(type){
         geometry = new THREE.CubeGeometry(3, 3, 3);
     material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true} );
     shape = new THREE.Mesh( geometry, material );
+    shape.position.z = -20
     shapes.push(shape);
     scene.add( shape );
 }
@@ -74,6 +75,7 @@ function loadObj(path){
         // resource URL
         path,
         function ( object ) {
+            object.position.set(0, -10, -30)
             scene.add( object );
         },
         function ( xhr ) {
@@ -94,10 +96,10 @@ function loadObj(path){
 }
 
 function animate() {
-    shapes[0].rotation.x += 0.001;
-    shapes[1].rotation.y += 0.01;
+    
     renderer.setAnimationLoop( function () {
-
+        shapes[0].rotation.x += 0.007;
+        shapes[1].rotation.y += 0.01;
         renderer.render( scene, camera );
     
     } );
