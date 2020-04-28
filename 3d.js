@@ -1,7 +1,7 @@
 import { VRButton } from './three/examples/jsm/webxr/CustomVRButton.js';
 
-var scene, camera, renderer;
-function init(){
+export var scene, camera, renderer;
+export function init(){
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.xr.enabled = true;
     //renderer.setClearColor("#858585");
@@ -63,7 +63,7 @@ function makeShape(type){
     shape = new THREE.Mesh( geometry, material );
     shape.position.z = -20
     shapes.push(shape);
-    scene.add( shape );
+    scene.add(shape);
 }
 
 function loadObj(path){
@@ -95,22 +95,14 @@ function loadObj(path){
    // loader.load( path, callbackOnLoad, null, null, null );
 }
 
-function animate() {
-    
-    renderer.setAnimationLoop( function () {
-        shapes[0].rotation.x += 0.007;
-        shapes[1].rotation.y += 0.01;
-        renderer.render( scene, camera );
-    
-    } );
-}
-
 function main(){
     init();
     makeShape("sphere");
     makeShape("cube");
     loadObj('models/human.obj');
-    animate();
+    loadBoxAnimation(scene, shapes);
+    var buttonNum = 1;
+    play(renderer, scene, camera, shapes, buttonNum);
 }
 
 main()
