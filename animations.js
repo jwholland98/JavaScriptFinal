@@ -1,17 +1,24 @@
-function update(buttonNum, shapes){
+
+
+function update(buttonNum, shapes, scene){
     if (buttonNum == 1){
-        shapes[2].rotation.x+=.005;
-        shapes[2].rotation.y+=.001;
+        shapes[0].rotation.x += 0.007;
+        shapes[1].rotation.y += 0.01;
+        /*shapes[2].rotation.x+=.005;
+        shapes[2].rotation.y+=.001;*/
+        this.tl = new TimelineMax().delay(.3);
+        this.tl.to(shapes[2].scale, 1, {x: 2, ease: Expo.easeOut})
+        //this.tl.to(shapes[2].scale, .5, {x: .5, ease: Expo.easeOut})// this line makes it shake for some reason
+        this.tl.to(shapes[2].position, .5, {x: 2, ease: Expo.easeOut})
+        this.tl.to(shapes[2].rotation, .5, {x: Math.PI*.5, ease: Expo.easeOut}, "=-1.5")
     }
     // if for each different button
 }
 
 function play(renderer, scene, camera, shapes, buttonNum){
     renderer.setAnimationLoop( function () {
-        update(buttonNum, shapes)
 
-        shapes[0].rotation.x += 0.007;
-        shapes[1].rotation.y += 0.01;
+        update(buttonNum, shapes, scene)
 
         renderer.render(scene, camera);
     });
