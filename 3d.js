@@ -31,15 +31,19 @@ export function init(){
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
 
-    var keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    var light = new THREE.PointLight(0xffffff, .75, 1000);
+    light.position.set(-50, 50,-50);
+
+    var keyLight = new THREE.DirectionalLight(0xffffff, .75);
     keyLight.position.set(-60, 0, 60);
 
     var fillLight = new THREE.DirectionalLight(0xffffff, 0.75);
-    fillLight.position.set(60, 0, 60);
+    fillLight.position.set(60, -60, 60);
 
-    var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    var backLight = new THREE.DirectionalLight(0xffffff, .75);
     backLight.position.set(60, 0, -60).normalize();
 
+    scene.add(light);
     scene.add(keyLight);
     scene.add(fillLight);
     scene.add(backLight);
@@ -97,8 +101,8 @@ function loadObj(path){
 
 function main(){
     init();
-    makeShape("sphere");
-    makeShape("cube");
+    //makeShape("sphere");
+    //makeShape("cube");
     loadObj('models/human.obj');
     loadBoxAnimation(scene, shapes);
     var buttonNum = 1;

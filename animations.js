@@ -2,15 +2,16 @@
 
 function update(buttonNum, shapes, scene){
     if (buttonNum == 1){
-        shapes[0].rotation.x += 0.007;
-        shapes[1].rotation.y += 0.01;
         /*shapes[2].rotation.x+=.005;
         shapes[2].rotation.y+=.001;*/
+        for(var i = 0;i<shapes.length;i++){
         this.tl = new TimelineMax().delay(.3);
-        this.tl.to(shapes[2].scale, 1, {x: 2, ease: Expo.easeOut})
-        //this.tl.to(shapes[2].scale, .5, {x: .5, ease: Expo.easeOut})// this line makes it shake for some reason
-        this.tl.to(shapes[2].position, .5, {x: 2, ease: Expo.easeOut})
-        this.tl.to(shapes[2].rotation, .5, {x: Math.PI*.5, ease: Expo.easeOut}, "=-1.5")
+            this.tl.to(shapes[i].scale, 1, {z: 2, ease: Expo.easeOut})
+            this.tl.to(shapes[i].scale, .5, {x: .5, ease: Expo.easeOut})
+            this.tl.to(shapes[i].scale, .5, {y: .5, ease: Expo.easeOut})
+            this.tl.to(shapes[i].rotation, .5, {z: Math.PI*.5, ease: Expo.easeOut})
+            this.tl.to(shapes[i].position, 1, {z: 2, ease: Expo.easeOut})
+        }
     }
     // if for each different button
 }
@@ -33,9 +34,13 @@ function stop() {
 
 function loadBoxAnimation(scene, shapes){
     geometry = new THREE.CubeGeometry(3, 3, 3);
-    material = new THREE.MeshLambertMaterial( { color: 0xffcc00});
-    shape = new THREE.Mesh( geometry, material );
-    shapes.push(shape);
-    shape.position.z = -10
-    scene.add(shape);
+    material = new THREE.MeshLambertMaterial( { color: 0x008080});
+    meshX = -10;
+    for(var i = 0; i<10;i++){
+        shape = new THREE.Mesh( geometry, material );
+        shape.position.set((Math.random()-.5)*30, (Math.random()-.5)*30, (Math.random()-1)*30)
+        shapes.push(shape);
+        scene.add(shape);
+        meshX+=1;
+    }
 }
