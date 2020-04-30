@@ -9,8 +9,8 @@ function update(buttonNum, shapes, scene){
             this.tl.to(shapes[i].scale, 1, {z: 2, ease: Expo.easeOut})
             this.tl.to(shapes[i].scale, .5, {x: .5, ease: Expo.easeOut})
             this.tl.to(shapes[i].scale, .5, {y: .5, ease: Expo.easeOut})
-            this.tl.to(shapes[i].rotation, .5, {z: Math.PI*.5, ease: Expo.easeOut})
-            this.tl.to(shapes[i].position, 1, {z: 2, ease: Expo.easeOut})
+            this.tl.to(shapes[i].rotation, .5, {z: shapes[i].rotation.z + Math.PI*.5, ease: Expo.easeOut})
+            this.tl.to(shapes[i].position, 1, {z: -40, ease: Expo.easeOut})
         }
     }
     // if for each different button
