@@ -44,7 +44,7 @@ function init(){
     scene.add( cameraFixture );
 
 
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
@@ -136,6 +136,7 @@ function loadObj(path){
         // resource URL
         path,
         function ( object ) {
+            object.position.set(0, -10, -30)
             scene.add( object );
         },
         function ( xhr ) {
