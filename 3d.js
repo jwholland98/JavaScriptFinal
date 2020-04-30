@@ -48,8 +48,25 @@ function init(){
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
+  
+    var light = new THREE.PointLight(0xffffff, .75, 1000);
+    light.position.set(-50, 50,-50);
 
-    var keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    var keyLight = new THREE.DirectionalLight(0xffffff, .75);
+    keyLight.position.set(-60, 0, 60);
+
+    var fillLight = new THREE.DirectionalLight(0xffffff, 0.75);
+    fillLight.position.set(60, -60, 60);
+
+    var backLight = new THREE.DirectionalLight(0xffffff, .75);
+    backLight.position.set(60, 0, -60).normalize();
+
+    scene.add(light);
+    scene.add(keyLight);
+    scene.add(fillLight);
+    scene.add(backLight);
+
+    /*var keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
     keyLight.position.set(-60, 0, 60);
 
     var fillLight = new THREE.DirectionalLight(0xffffff, 0.50);
@@ -60,7 +77,7 @@ function init(){
 
     scene.add(keyLight);
     scene.add(fillLight);
-    scene.add(backLight);
+    scene.add(backLight);*/
 
     window.addEventListener('resize', () => {
         renderer.setSize( window.innerWidth, window.innerHeight );
@@ -138,16 +155,6 @@ function loadObj(path){
    // loader.load( path, callbackOnLoad, null, null, null );
 }
 
-function animate() {
-    shapes[0].rotation.x += 0.001;
-    shapes[1].rotation.y += 0.01;
-    renderer.setAnimationLoop( function () {
-
-        renderer.render( scene, camera );
-    
-    } );
-}
-
 function main(){
     init();
     makeShape("sphere", 0, 0, 0);
@@ -155,7 +162,9 @@ function main(){
     loadObj('models/human.obj');
     createController(0);
     createController(1);
-    animate();
+    loadBoxAnimation(scene, shapes);
+    var buttonNum = 1;
+    play(renderer, scene, camera, shapes, buttonNum);
 }
 
 main()
