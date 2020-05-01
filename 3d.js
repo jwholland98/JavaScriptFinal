@@ -39,15 +39,19 @@ function init(){
       //making the head a referenceable location
     
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    cameraFixture.add(camera);
-    cameraFixture.position.set(2, 2, -1);
-    scene.add( cameraFixture );
+    camera.position.set(0, 30, 20);
+    
+    /*cameraFixture.add(camera);
+    cameraFixture.position.set(0, 20, 30);
+    scene.add( cameraFixture );*/
 
 
-    var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
+    controls.target.set(0, 1, -30);
+    controls.update();
   
     var light = new THREE.PointLight(0xffffff, .75, 1000);
     light.position.set(-50, 50,-50);
@@ -104,7 +108,7 @@ function makeShape(type, xPos=0, yPos=0, zPos=0){
 }
 function createController( controllerId ) {
     // RENDER CONTROLLER
-    const controller = renderer.vr.getController( controllerId );
+    const controller = renderer.xr.getController( controllerId );
     const cylinderGeometry = new THREE.CylinderGeometry( 0.025, 0.025, 1, 32 );
     const cylinderMaterial = new THREE.MeshPhongMaterial( {color: 0xffff00} );
     const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
@@ -136,7 +140,7 @@ function loadObj(path){
         // resource URL
         path,
         function ( object ) {
-            object.position.set(0, -10, -30)
+            object.position.set(0, 1, -30)
             scene.add( object );
         },
         function ( xhr ) {
@@ -156,8 +160,17 @@ function loadObj(path){
    // loader.load( path, callbackOnLoad, null, null, null );
 }
 
+function loadFloor(){
+    geometry = new THREE.CubeGeometry(100, 2, 100);
+    material = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
+    var floor = new THREE.Mesh( geometry, material );
+    floor.position.set(0, 0, 0);
+    scene.add( floor );
+}
+
 function main(){
     init();
+    loadFloor();
     makeShape("sphere", 0, 0, 0);
     makeShape("cube",0,0,0);
     loadObj('models/human.obj');
