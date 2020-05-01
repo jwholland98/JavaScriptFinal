@@ -2,7 +2,7 @@
 //import { Bone } from './three/build/three.module.js';
 //import * as THREE from './three/build/three.module.js';
 import { VRButton } from './three/examples/jsm/webxr/CustomVRButton.js';
-//import { XRControllerModelFactory } from './three/examples/jsm/webxr/XRControllerModelFactory.js';
+//import { XRControllerobjectFactory } from './three/examples/jsm/webxr/XRControllerobjectFactory.js';
 //import {createController } from './buttonPusher.js'
 
 var scene, camera, renderer;
@@ -106,6 +106,7 @@ function makeShape(type, xPos=0, yPos=0, zPos=0){
     shapes.push(shape);
     scene.add( shape );
 }
+
 function createController( controllerId ) {
     // RENDER CONTROLLER
     const controller = renderer.xr.getController( controllerId );
@@ -131,6 +132,7 @@ function createController( controllerId ) {
     // raycaster = new THREE.Raycaster();
 }
 
+var myObj, loaded;
 function loadObj(path){
     // instantiate a loader
     var loader = new THREE.OBJLoader();
@@ -140,12 +142,16 @@ function loadObj(path){
         // resource URL
         path,
         function ( object ) {
+            myObj = object;
             object.position.set(0, 1, -30)
             scene.add( object );
         },
         function ( xhr ) {
-
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            var percentloaded = xhr.loaded / xhr.total * 100;
+            console.log( percentloaded + '% loaded' );
+            if (percentloaded == 100){
+                loaded = true;
+            }
     
         },
         // called when loading has errors
@@ -161,7 +167,7 @@ function loadObj(path){
 }
 
 function loadFloor(){
-    geometry = new THREE.CubeGeometry(100, 2, 100);
+    geometry = new THREE.CubeGeometry(150, 2, 100);
     material = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
     var floor = new THREE.Mesh( geometry, material );
     floor.position.set(0, 0, 0);
@@ -171,14 +177,19 @@ function loadFloor(){
 function main(){
     init();
     loadFloor();
-    makeShape("sphere", 0, 0, 0);
-    makeShape("cube",0,0,0);
     loadObj('models/human.obj');
     createController(0);
     createController(1);
     loadBoxAnimation(scene, shapes);
-    var buttonNum = 1;
-    play(renderer, scene, camera, shapes, buttonNum);
+    var buttonNum = 2;
+
+    function checkVariable() {//makes sure everything is loaded before going to animation loop
+        if (loaded == true) {
+            play(renderer, scene, camera, shapes, myObj, loaded, buttonNum);
+        }
+    }
+     
+    setTimeout(checkVariable, 1000);
 }
 
 main()

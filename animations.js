@@ -1,9 +1,7 @@
 
 
-function update(buttonNum, shapes, scene){
+function update(buttonNum, shapes, object, loaded){
     if (buttonNum == 1){
-        /*shapes[2].rotation.x+=.005;
-        shapes[2].rotation.y+=.001;*/
         for(var i = 0;i<shapes.length;i++){
         this.tl = new TimelineMax().delay(.3);
             this.tl.to(shapes[i].scale, 1, {z: 2, ease: Expo.easeOut})
@@ -13,13 +11,16 @@ function update(buttonNum, shapes, scene){
             this.tl.to(shapes[i].position, 1, {z: -40, ease: Expo.easeOut})
         }
     }
+    if (buttonNum == 2){
+            object.rotation.y+=.01;
+    }
     // if for each different button
 }
 
-function play(renderer, scene, camera, shapes, buttonNum){
+function play(renderer, scene, camera, shapes, object, loaded, buttonNum){
     renderer.setAnimationLoop( function () {
 
-        update(buttonNum, shapes, scene)
+        update(buttonNum, shapes, object, loaded)
 
         renderer.render(scene, camera);
     });
@@ -44,3 +45,4 @@ function loadBoxAnimation(scene, shapes){
         meshX+=1;
     }
 }
+
