@@ -180,12 +180,13 @@ function main(){
     loadObj('models/human.obj');
     createController(0);
     createController(1);
-    loadBoxAnimation(scene, shapes);
-    var buttonNum = 2;
+    //loadBoxAnimation(scene, shapes);
+    loadPivotAnimation(scene);
+    var buttonNum = 3;
 
     function checkVariable() {//makes sure everything is loaded before going to animation loop
         if (loaded == true) {
-            play(renderer, scene, camera, shapes, myObj, loaded, buttonNum);
+            play(renderer, scene, camera, shapes, myObj, buttonNum);
         }
     }
      
