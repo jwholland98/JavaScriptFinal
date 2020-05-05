@@ -144,6 +144,7 @@ function loadObj(path){
         function ( object ) {
             myObj = object;
             object.position.set(0, 1, -30)
+            //object.scale.set(100, 100, 100);
             scene.add( object );
         },
         function ( xhr ) {
