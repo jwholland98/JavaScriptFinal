@@ -2,7 +2,7 @@
 //import { Bone } from './three/build/three.module.js';
 //import * as THREE from './three/build/three.module.js';
 import { VRButton } from './three/examples/jsm/webxr/CustomVRButton.js';
-//import { XRControllerModelFactory } from './three/examples/jsm/webxr/XRControllerModelFactory.js';
+//import { XRControllerobjectFactory } from './three/examples/jsm/webxr/XRControllerobjectFactory.js';
 //import {createController } from './buttonPusher.js'
 
 var scene, camera, renderer;
@@ -38,10 +38,10 @@ function init(){
       //making the head a referenceable location
     
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    //camera.position.set(0, 30, 50);
     cameraFixture.add(camera);
     //cameraFixture.position.set(2, 2, -1);
     scene.add( cameraFixture );
-
 
     var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
     controls.enableDampening = true;
@@ -86,7 +86,7 @@ function makeShape(type, xPos=0, yPos=0, zPos=0){
     scene.add( shape );
 }
 
-
+var myObj, loaded;
 function loadObj(path){
     // instantiate a loader
     var loader = new THREE.OBJLoader();
@@ -96,13 +96,17 @@ function loadObj(path){
         // resource URL
         path,
         function ( object ) {
-            object.position.set(0, -10, -30)
-            object.scale.set(0.5,0.5,0.5);
+            myObj = object;
+            object.position.set(0, 1, -30)
+            //object.scale.set(100, 100, 100);
             scene.add( object );
         },
         function ( xhr ) {
-
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            var percentloaded = xhr.loaded / xhr.total * 100;
+            console.log( percentloaded + '% loaded' );
+            if (percentloaded == 100){
+                loaded = true;
+            }
     
         },
         // called when loading has errors
@@ -115,21 +119,37 @@ function loadObj(path){
    // loader.load( path, callbackOnLoad, null, null, null );
 }
 
+function loadFloor(){
+    geometry = new THREE.CubeGeometry(150, 2, 100);
+    material = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
+    var floor = new THREE.Mesh( geometry, material );
+    floor.position.set(0, 0, 0);
+    scene.add( floor );
+}
+
 function main(){
     init();
-    makeShape("sphere", 0, 0, 0);
-    makeShape("cube",0,0,0);
+    loadFloor();
+    loadObj('models/human.obj');
     makeButton("cube", 0,1,-1, scene, shapes);
     makeButton("cube", 1,1,-1, scene, shapes);
     makeButton("cube", -1,1,-1,scene, shapes);
-    loadObj('models/human.obj',scene, shapes);
-    
-    loadBoxAnimation(scene, shapes);
     createController(0, renderer, cameraFixture, scene);
     createController(1, renderer, cameraFixture, scene);
-    //updateRaycasts();
+    loadBoxAnimation(scene, shapes);
+    loadPivotAnimation(scene);
+    makeSign('Custom Animation\n     using GSAP', scene, -60, 45, -30);
+    makeSign('Custom Loaded\n        model', scene, -14.5, 45, -30);
+    makeSign('Objects rotating around\n     custom pivot point', scene, 30, 45, -30);
     var buttonNum = 1;
-    play(renderer, scene, camera, shapes, buttonNum);
+
+    function checkVariable() {//makes sure everything is loaded before going to animation loop
+        if (loaded == true) {
+            play(renderer, scene, camera, shapes, myObj, buttonNum);
+        }
+    }
+     
+    setTimeout(checkVariable, 1000);
 }
 
 main()
