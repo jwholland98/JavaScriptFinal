@@ -40,7 +40,7 @@ function init(){
     
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     cameraFixture.add(camera);
-    cameraFixture.position.set(2, 2, -1);
+    //cameraFixture.position.set(2, 2, -1);
     scene.add( cameraFixture );
 
 
