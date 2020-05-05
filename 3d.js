@@ -39,7 +39,7 @@ function init(){
       //making the head a referenceable location
     
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.set(0, 30, 20);
+    camera.position.set(0, 30, 50);
     
     /*cameraFixture.add(camera);
     cameraFixture.position.set(0, 20, 30);
@@ -180,9 +180,12 @@ function main(){
     loadObj('models/human.obj');
     createController(0);
     createController(1);
-    //loadBoxAnimation(scene, shapes);
+    loadBoxAnimation(scene, shapes);
     loadPivotAnimation(scene);
-    var buttonNum = 3;
+    makeSign('Custom Animation\n     using GSAP', scene, -60, 45, -30);
+    makeSign('Custom Loaded\n        model', scene, -14.5, 45, -30);
+    makeSign('Objects rotating around\n     custom pivot point', scene, 30, 45, -30);
+    var buttonNum = 1;
 
     function checkVariable() {//makes sure everything is loaded before going to animation loop
         if (loaded == true) {
