@@ -30,7 +30,7 @@ function init(){
           'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
           'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
           'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://i.pinimg.com/originals/6d/a3/c4/6da3c4228b17b9357ce6c3bd42a4c665.jpg',
+          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
         ]);
         scene.background = texture;
       }
