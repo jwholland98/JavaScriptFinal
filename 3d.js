@@ -10,7 +10,7 @@ var scene, camera, renderer;
 var controller1, controller2;
 var controllerGrip1, controllerGrip2;
 var cameraFixture;
-var raycaster, intersected = [];
+
 
 function init(){
     cameraFixture = new Group();
@@ -19,7 +19,6 @@ function init(){
     //renderer.setClearColor("#858585");
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild(VRButton.createButton(renderer));
-    
     
     document.body.appendChild( renderer.domElement );
 
@@ -31,7 +30,7 @@ function init(){
           'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
           'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
           'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'https://i.pinimg.com/originals/6d/a3/c4/6da3c4228b17b9357ce6c3bd42a4c665.jpg',
         ]);
         scene.background = texture;
       }
@@ -66,25 +65,9 @@ function init(){
     scene.add(fillLight);
     scene.add(backLight);
 
-    /*var keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    keyLight.position.set(-60, 0, 60);
-
-    var fillLight = new THREE.DirectionalLight(0xffffff, 0.50);
-    fillLight.position.set(60, 0, 60);
-
-    var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    backLight.position.set(60, 0, -60).normalize();
-
-    scene.add(keyLight);
-    scene.add(fillLight);
-    scene.add(backLight);*/
-
     window.addEventListener('resize', () => {
         renderer.setSize( window.innerWidth, window.innerHeight );
         camera.aspect = window.innerWidth / window.innerHeight;
-
-        //camera.updatePojectionMatrix();
-        
     })
 
 }
@@ -102,30 +85,7 @@ function makeShape(type, xPos=0, yPos=0, zPos=0){
     shapes.push(shape);
     scene.add( shape );
 }
-function createController( controllerId ) {
-    // RENDER CONTROLLER
-    const controller = renderer.vr.getController( controllerId );
-    const cylinderGeometry = new THREE.CylinderGeometry( 0.025, 0.025, 1, 32 );
-    const cylinderMaterial = new THREE.MeshPhongMaterial( {color: 0xffff00} );
-    const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
-    cylinder.geometry.translate( 0, 0.5, 0 );
-    cylinder.rotateX( - 0.25 * Math.PI );
-    controller.add( cylinder );
-    cameraFixture.add( controller );
-    // TRIGGER
-    controller.addEventListener( 'selectstart', () => { cylinderMaterial.color.set( 0xff0000 ) } );
-    controller.addEventListener( 'selectend', () => { cylinderMaterial.color.set( 0xffff00 ) } );
-    var geometry = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
 
-    var line = new THREE.Line( geometry );
-    line.name = 'line';
-    line.scale.z = 5;
-
-    // controller1.add( line.clone() );
-    // controller2.add( line.clone() );
-
-    // raycaster = new THREE.Raycaster();
-}
 
 function loadObj(path){
     // instantiate a loader
@@ -137,6 +97,7 @@ function loadObj(path){
         path,
         function ( object ) {
             object.position.set(0, -10, -30)
+            object.scale.set(0.5,0.5,0.5);
             scene.add( object );
         },
         function ( xhr ) {
@@ -146,9 +107,7 @@ function loadObj(path){
         },
         // called when loading has errors
         function ( error ) {
-    
             console.log( 'An error happened' );
-    
         }
     );
 
@@ -160,10 +119,15 @@ function main(){
     init();
     makeShape("sphere", 0, 0, 0);
     makeShape("cube",0,0,0);
-    loadObj('models/human.obj');
-    createController(0);
-    createController(1);
+    makeButton("cube", 0,1,-1, scene, shapes);
+    makeButton("cube", 1,1,-1, scene, shapes);
+    makeButton("cube", -1,1,-1,scene, shapes);
+    loadObj('models/human.obj',scene, shapes);
+    
     loadBoxAnimation(scene, shapes);
+    createController(0, renderer, cameraFixture, scene);
+    createController(1, renderer, cameraFixture, scene);
+    //updateRaycasts();
     var buttonNum = 1;
     play(renderer, scene, camera, shapes, buttonNum);
 }

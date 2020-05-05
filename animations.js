@@ -38,7 +38,7 @@ function loadBoxAnimation(scene, shapes){
     meshX = -10;
     for(var i = 0; i<10;i++){
         shape = new THREE.Mesh( geometry, material );
-        shape.position.set((Math.random()-.5)*30, (Math.random()-.5)*30, (Math.random()-1)*30)
+        shape.position.set((Math.random()-.5)*30, 20+(Math.random()-.5)*30, (Math.random()-1)*30)
         shapes.push(shape);
         scene.add(shape);
         meshX+=1;
