@@ -10,7 +10,7 @@ var scene, camera, renderer;
 var controller1, controller2;
 var controllerGrip1, controllerGrip2;
 var cameraFixture;
-var raycaster, intersected = [];
+
 
 function init(){
     cameraFixture = new Group();
@@ -19,7 +19,6 @@ function init(){
     //renderer.setClearColor("#858585");
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild(VRButton.createButton(renderer));
-    
     
     document.body.appendChild( renderer.domElement );
 
@@ -39,19 +38,15 @@ function init(){
       //making the head a referenceable location
     
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    camera.position.set(0, 30, 50);
-    
-    /*cameraFixture.add(camera);
-    cameraFixture.position.set(0, 20, 30);
-    scene.add( cameraFixture );*/
+    //camera.position.set(0, 30, 50);
+    cameraFixture.add(camera);
+    //cameraFixture.position.set(2, 2, -1);
+    scene.add( cameraFixture );
 
-
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
-    controls.target.set(0, 1, -30);
-    controls.update();
   
     var light = new THREE.PointLight(0xffffff, .75, 1000);
     light.position.set(-50, 50,-50);
@@ -70,25 +65,9 @@ function init(){
     scene.add(fillLight);
     scene.add(backLight);
 
-    /*var keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    keyLight.position.set(-60, 0, 60);
-
-    var fillLight = new THREE.DirectionalLight(0xffffff, 0.50);
-    fillLight.position.set(60, 0, 60);
-
-    var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    backLight.position.set(60, 0, -60).normalize();
-
-    scene.add(keyLight);
-    scene.add(fillLight);
-    scene.add(backLight);*/
-
     window.addEventListener('resize', () => {
         renderer.setSize( window.innerWidth, window.innerHeight );
         camera.aspect = window.innerWidth / window.innerHeight;
-
-        //camera.updatePojectionMatrix();
-        
     })
 
 }
@@ -105,31 +84,6 @@ function makeShape(type, xPos=0, yPos=0, zPos=0){
     shape.geometry.translate(xPos, yPos, zPos);
     shapes.push(shape);
     scene.add( shape );
-}
-
-function createController( controllerId ) {
-    // RENDER CONTROLLER
-    const controller = renderer.xr.getController( controllerId );
-    const cylinderGeometry = new THREE.CylinderGeometry( 0.025, 0.025, 1, 32 );
-    const cylinderMaterial = new THREE.MeshPhongMaterial( {color: 0xffff00} );
-    const cylinder = new THREE.Mesh( cylinderGeometry, cylinderMaterial );
-    cylinder.geometry.translate( 0, 0.5, 0 );
-    cylinder.rotateX( - 0.25 * Math.PI );
-    controller.add( cylinder );
-    cameraFixture.add( controller );
-    // TRIGGER
-    controller.addEventListener( 'selectstart', () => { cylinderMaterial.color.set( 0xff0000 ) } );
-    controller.addEventListener( 'selectend', () => { cylinderMaterial.color.set( 0xffff00 ) } );
-    var geometry = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
-
-    var line = new THREE.Line( geometry );
-    line.name = 'line';
-    line.scale.z = 5;
-
-    // controller1.add( line.clone() );
-    // controller2.add( line.clone() );
-
-    // raycaster = new THREE.Raycaster();
 }
 
 var myObj, loaded;
@@ -157,9 +111,7 @@ function loadObj(path){
         },
         // called when loading has errors
         function ( error ) {
-    
             console.log( 'An error happened' );
-    
         }
     );
 
@@ -179,8 +131,11 @@ function main(){
     init();
     loadFloor();
     loadObj('models/human.obj');
-    createController(0);
-    createController(1);
+    makeButton("cube", 0,1,-1, scene, shapes);
+    makeButton("cube", 1,1,-1, scene, shapes);
+    makeButton("cube", -1,1,-1,scene, shapes);
+    createController(0, renderer, cameraFixture, scene);
+    createController(1, renderer, cameraFixture, scene);
     loadBoxAnimation(scene, shapes);
     loadPivotAnimation(scene);
     makeSign('Custom Animation\n     using GSAP', scene, -60, 45, -30);
