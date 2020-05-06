@@ -25,12 +25,12 @@ function init(){
     scene = new THREE.Scene();{
         const loader = new THREE.CubeTextureLoader();
         const texture = loader.load([
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'skybox/skybox_front.png',
+          'skybox/skybox_back.png',
+          'skybox/skybox_up.png',
+          'skybox/skybox_down.png',
+          'skybox/skybox_right.png',
+          'skybox/skybox_left.png',
         ]);
         scene.background = texture;
       }
@@ -38,12 +38,13 @@ function init(){
       //making the head a referenceable location
     
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    //camera.position.set(0, 30, 50);
-    cameraFixture.add(camera);
-    //cameraFixture.position.set(2, 2, -1);
-    scene.add( cameraFixture );
+    camera.position.set(0, 6, 10);
 
-    var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
+    /*cameraFixture.add(camera);
+    //cameraFixture.position.set(2, 2, -1);
+    scene.add( cameraFixture );*/
+
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
@@ -97,8 +98,8 @@ function loadObj(path){
         path,
         function ( object ) {
             myObj = object;
-            object.position.set(0, 1, -30)
-            //object.scale.set(100, 100, 100);
+            object.position.set(0, .2, -6)
+            object.scale.set(.25, .25, .25);
             scene.add( object );
         },
         function ( xhr ) {
@@ -120,7 +121,7 @@ function loadObj(path){
 }
 
 function loadFloor(){
-    geometry = new THREE.CubeGeometry(150, 2, 100);
+    geometry = new THREE.CubeGeometry(30, .4, 20);
     material = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
     var floor = new THREE.Mesh( geometry, material );
     floor.position.set(0, 0, 0);
@@ -138,9 +139,9 @@ function main(){
     createController(1, renderer, cameraFixture, scene);
     loadBoxAnimation(scene, shapes);
     loadPivotAnimation(scene);
-    makeSign('Custom Animation\n     using GSAP', scene, -60, 45, -30);
-    makeSign('Custom Loaded\n        model', scene, -14.5, 45, -30);
-    makeSign('Objects rotating around\n     custom pivot point', scene, 30, 45, -30);
+    makeSign('Custom Animation\n     using GSAP', scene, -12, 9, -6);
+    makeSign('Custom Loaded\n        model', scene, -2.9, 9, -6);
+    makeSign('Objects rotating around\n     custom pivot point', scene, 6, 9, -6);
     var buttonNum = 1;
 
     function checkVariable() {//makes sure everything is loaded before going to animation loop
