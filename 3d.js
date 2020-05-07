@@ -40,11 +40,11 @@ function init(){
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     camera.position.set(0, 6, 10);
 
-    /*cameraFixture.add(camera);
+    cameraFixture.add(camera);
     //cameraFixture.position.set(2, 2, -1);
-    scene.add( cameraFixture );*/
+    scene.add( cameraFixture );
 
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
+    var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
