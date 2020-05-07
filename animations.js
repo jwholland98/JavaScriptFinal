@@ -1,11 +1,10 @@
 var pivot;
-var buttonNum = 1;
+var buttonNum = 0;
 var numAnimations = 3
 
 function incremementButtonNum(){
     buttonNum++;
-    buttonNum =buttonNum % (numAnimations+1);
-    if(buttonNum == 0){buttonNum++;}
+    buttonNum = buttonNum % (numAnimations+1);
 }
 
 function update( shapes, object){
