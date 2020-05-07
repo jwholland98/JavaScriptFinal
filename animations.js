@@ -1,6 +1,15 @@
 var pivot;
+var buttonNum = 0;
+var numAnimations = 3
 
-function update(buttonNum, shapes, object){
+
+function incremementButtonNum(){
+    buttonNum++;
+    buttonNum = buttonNum % (numAnimations+1);
+}
+
+function update( shapes, object){
+    //console.log(buttonNum); //for debug purposes
     if (buttonNum == 1){
         for(var i = 0;i<shapes.length;i++){
             this.tl = new TimelineMax().delay(.3);
@@ -19,10 +28,10 @@ function update(buttonNum, shapes, object){
     }
 }
 
-function play(renderer, scene, camera, shapes, object, buttonNum){
+function play(renderer, scene, camera, shapes, object){
     renderer.setAnimationLoop( function () {
 
-        update(buttonNum, shapes, object)
+        update(shapes, object)
 
         renderer.render(scene, camera);
     });
