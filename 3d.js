@@ -5,15 +5,28 @@ import { VRButton } from './three/examples/jsm/webxr/CustomVRButton.js';
 //import { XRControllerobjectFactory } from './three/examples/jsm/webxr/XRControllerobjectFactory.js';
 //import {createController } from './buttonPusher.js'
 
-var scene, camera, renderer;
+//________Global variables:_______
 
+//General scene:
+var scene, camera, renderer, cameraFixture;
+
+//makeShape & animations
+var geometry, material, shape;
+var shapes = new Array;
+//var buttonNum = 1;
+// var numAnimations = 3
+
+//createController
 var controller1, controller2;
-var controllerGrip1, controllerGrip2;
-var cameraFixture;
+//  var cylinder, line;
+//  var controllerGrip1, controllerGrip2;
+//  var raycaster;
+
+//objectLoader:
+var myObj, loaded;
 
 
-function init(){
-    cameraFixture = new Group();
+function init(){   
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.xr.enabled = true;
     //renderer.setClearColor("#858585");
@@ -25,29 +38,35 @@ function init(){
     scene = new THREE.Scene();{
         const loader = new THREE.CubeTextureLoader();
         const texture = loader.load([
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
-          'https://threejsfundamentals.org/threejs/resources/images/grid-1024.png',
+          'textures/skybox/skybox_left.png',
+          'textures/skybox/skybox_right.png',
+          'textures/skybox/skybox_up.png',
+          'textures/skybox/skybox_down.png',
+          'textures/skybox/skybox_front.png',
+          'textures/skybox/skybox_back.png',
         ]);
         scene.background = texture;
       }
 
-      //making the head a referenceable location
-    
+    //making the head a referenceable location
+
+    cameraFixture = new Group();
+    controller1 = new Group();
+    controller2 = new Group();
+    raycaster = new THREE.Raycaster();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    //camera.position.set(0, 30, 50);
+    camera.position.set(0, 6, 10);
     cameraFixture.add(camera);
+    cameraFixture.add(controller1);
+    cameraFixture.add(controller2);
     //cameraFixture.position.set(2, 2, -1);
     scene.add( cameraFixture );
-
+    //Orbit Controls:
     var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
-  
+    //Scene Lights:
     var light = new THREE.PointLight(0xffffff, .75, 1000);
     light.position.set(-50, 50,-50);
 
@@ -64,7 +83,7 @@ function init(){
     scene.add(keyLight);
     scene.add(fillLight);
     scene.add(backLight);
-
+    //just something to resize page
     window.addEventListener('resize', () => {
         renderer.setSize( window.innerWidth, window.innerHeight );
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -72,8 +91,6 @@ function init(){
 
 }
 
-var geometry, material, shape;
-var shapes = new Array;
 function makeShape(type, xPos=0, yPos=0, zPos=0){
     if(type=="sphere")
         geometry = new THREE.SphereGeometry();
@@ -86,7 +103,6 @@ function makeShape(type, xPos=0, yPos=0, zPos=0){
     scene.add( shape );
 }
 
-var myObj, loaded;
 function loadObj(path){
     // instantiate a loader
     var loader = new THREE.OBJLoader();
@@ -97,8 +113,8 @@ function loadObj(path){
         path,
         function ( object ) {
             myObj = object;
-            object.position.set(0, 1, -30)
-            //object.scale.set(100, 100, 100);
+            object.position.set(0, .2, -6)
+            object.scale.set(.25, .25, .25);
             scene.add( object );
         },
         function ( xhr ) {
@@ -116,39 +132,45 @@ function loadObj(path){
     );
 
     // load a resource from provided URL synchronously
-   // loader.load( path, callbackOnLoad, null, null, null );
+    // loader.load( path, callbackOnLoad, null, null, null );
 }
 
 function loadFloor(){
-    geometry = new THREE.CubeGeometry(150, 2, 100);
-    material = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
-    var floor = new THREE.Mesh( geometry, material );
+    var floorGeometry = new THREE.CubeGeometry(30, .4, 20);
+    var floorMaterial = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
+    var floor = new THREE.Mesh( floorGeometry, floorMaterial );
+    /*var loader2 = new THREE.CubeTextureLoader();
+    var texture = loader2.load([
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg'
+    ])*/
     floor.position.set(0, 0, 0);
     scene.add( floor );
 }
 
 function main(){
+
+    var convenientSpot = new Vector3(-1.5,0.5,0.5); //if you ever wondered where Stephen's desk is located
     init();
     loadFloor();
     loadObj('models/human.obj');
-    makeButton("cube", 0,1,-1, scene, shapes);
-    makeButton("cube", 1,1,-1, scene, shapes);
-    makeButton("cube", -1,1,-1,scene, shapes);
-    createController(0, renderer, cameraFixture, scene);
-    createController(1, renderer, cameraFixture, scene);
+    createController(scene, renderer, cameraFixture, 0);
     loadBoxAnimation(scene, shapes);
     loadPivotAnimation(scene);
-    makeSign('Custom Animation\n     using GSAP', scene, -60, 45, -30);
-    makeSign('Custom Loaded\n        model', scene, -14.5, 45, -30);
-    makeSign('Objects rotating around\n     custom pivot point', scene, 30, 45, -30);
-    var buttonNum = 1;
+    makeSign('Custom Animation\n     using GSAP', scene, -12, 9, -6);
+    makeSign('Custom Loaded\n        model', scene, -2.9, 9, -6);
+    makeSign('Objects rotating around\n     custom pivot point', scene, 6, 9, -6);
 
     function checkVariable() {//makes sure everything is loaded before going to animation loop
         if (loaded == true) {
-            play(renderer, scene, camera, shapes, myObj, buttonNum);
+            play(renderer, scene, camera, shapes, myObj);
         }
     }
-     
+    
     setTimeout(checkVariable, 1000);
 }
 

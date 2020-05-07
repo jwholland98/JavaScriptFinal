@@ -1,6 +1,15 @@
 var pivot;
+var buttonNum = 0;
+var numAnimations = 3
 
-function update(buttonNum, shapes, object){
+
+function incremementButtonNum(){
+    buttonNum++;
+    buttonNum = buttonNum % (numAnimations+1);
+}
+
+function update( shapes, object){
+    //console.log(buttonNum); //for debug purposes
     if (buttonNum == 1){
         for(var i = 0;i<shapes.length;i++){
             this.tl = new TimelineMax().delay(.3);
@@ -8,7 +17,7 @@ function update(buttonNum, shapes, object){
             this.tl.to(shapes[i].scale, .5, {x: .5, ease: Expo.easeOut})
             this.tl.to(shapes[i].scale, .5, {y: .5, ease: Expo.easeOut})
             this.tl.to(shapes[i].rotation, .5, {z: shapes[i].rotation.z + Math.PI*.5, ease: Expo.easeOut})
-            this.tl.to(shapes[i].position, 1, {z: -30, ease: Expo.easeOut})
+            this.tl.to(shapes[i].position, 1, {z: -6, ease: Expo.easeOut})
         }
     }
     if (buttonNum == 2){
@@ -19,10 +28,10 @@ function update(buttonNum, shapes, object){
     }
 }
 
-function play(renderer, scene, camera, shapes, object, buttonNum){
+function play(renderer, scene, camera, shapes, object){
     renderer.setAnimationLoop( function () {
 
-        update(buttonNum, shapes, object)
+        update(shapes, object)
 
         renderer.render(scene, camera);
     });
@@ -36,12 +45,12 @@ function stop() {
 }
 
 function loadBoxAnimation(scene, shapes){
-    geometry = new THREE.CubeGeometry(3, 3, 3);
+    geometry = new THREE.CubeGeometry(.6, .6, .6);
     material = new THREE.MeshLambertMaterial( { color: 0x008080});
     meshX = -10;
     for(var i = 0; i<15;i++){
         shape = new THREE.Mesh( geometry, material );
-        shape.position.set(-50+(Math.random()-.5)*30, 20+(Math.random()-.5)*30, -30+(Math.random()-1)*40)
+        shape.position.set(-10+(Math.random()-.5)*6, 4+(Math.random()-.5)*6, -6+(Math.random()-1)*8)
         shapes.push(shape);
         scene.add(shape);
         meshX+=1;
@@ -58,16 +67,16 @@ function loadPivotAnimation(scene){
     var SWcubes = new Array;
     var NWcubes = new Array;
     pivot = new THREE.Object3D();
-    pivot.position.set(50, 21, -30);
+    pivot.position.set(10, 4.2, -6);
     for(var i = 0;i<4;i++){
-        Ncube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
-        Ecube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
-        Scube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
-        Wcube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
-        NEcube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
-        SEcube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
-        SWcube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
-        NWcube = new THREE.Mesh( new THREE.CubeGeometry(2,2,2), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        Ncube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        Ecube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        Scube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        Wcube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        NEcube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        SEcube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        SWcube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
+        NWcube = new THREE.Mesh( new THREE.CubeGeometry(.4, .4, .4), new THREE.MeshLambertMaterial({ color: 0x008080}) );
         Ncubes.push(Ncube)
         Ecubes.push(Ecube);
         Scubes.push(Scube)
@@ -88,14 +97,14 @@ function loadPivotAnimation(scene){
     }
     scene.add(pivot);
     for(var i = 0;i<4;i++){
-        Ncubes[i].position.set(6+i*3, 0, 0);
-        Ecubes[i].position.set(0, 6+i*3, 0);
-        Scubes[i].position.set(-6-i*3, 0, 0);
-        Wcubes[i].position.set(0, -6-i*3, 0);
-        NEcubes[i].position.set(3+i*3, 3+i*3, 0);
-        SEcubes[i].position.set(3+i*3, -3-i*3, 0);
-        SWcubes[i].position.set(-3-i*3, 3+i*3, 0);
-        NWcubes[i].position.set(-3-i*3, -3-i*3, 0);
+        Ncubes[i].position.set(1.2+i*.6, 0, 0);
+        Ecubes[i].position.set(0, 1.2+i*.6, 0);
+        Scubes[i].position.set(-1.2-i*.6, 0, 0);
+        Wcubes[i].position.set(0, -1.2-i*.6, 0);
+        NEcubes[i].position.set(.6+i*.6, .6+i*.6, 0);
+        SEcubes[i].position.set(.6+i*.6, -.6-i*.6, 0);
+        SWcubes[i].position.set(-.6-i*.6, .6+i*.6, 0);
+        NWcubes[i].position.set(-.6-i*.6, -.6-i*.6, 0);
     }
 }
 
@@ -106,8 +115,8 @@ function makeSign(text, scene, x, y, z){
 
         geometry = new THREE.TextGeometry( text, {
             font: font,
-            size: 3,
-            height: .3,
+            size: .6,
+            height: .06,
             curveSegments: 0,
             /*bevelEnabled: false,
             bevelThickness: 0,
