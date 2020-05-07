@@ -1,5 +1,5 @@
 # JavaScriptFinal
-This will be a proof of concept for our _Advanced Programming: Javascript_ class to show that we can make a webpage that works in full virtual reality, whether that be on a phone or in a virtual reality headset. The goal is to have some interactibility within the webpage such as pushing a button and having some visual effect occur.
+This will be a proof of concept for our _Advanced Programming: Javascript_ class to show that we can make a webpage that works in full virtual reality, whether that be on a phone or in a virtual reality headset. The idea is to have some interactibility within the webpage such as clicking your phone screen or pulling a trigger on a virtual reality headset controller to have different animation techniques begin/end.
 
 
 
