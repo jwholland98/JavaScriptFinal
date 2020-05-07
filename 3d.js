@@ -25,12 +25,12 @@ function init(){
     scene = new THREE.Scene();{
         const loader = new THREE.CubeTextureLoader();
         const texture = loader.load([
-          'skybox/skybox_front.png',
-          'skybox/skybox_back.png',
-          'skybox/skybox_up.png',
-          'skybox/skybox_down.png',
-          'skybox/skybox_right.png',
-          'skybox/skybox_left.png',
+          'textures/skybox/skybox_left.png',
+          'textures/skybox/skybox_right.png',
+          'textures/skybox/skybox_up.png',
+          'textures/skybox/skybox_down.png',
+          'textures/skybox/skybox_front.png',
+          'textures/skybox/skybox_back.png',
         ]);
         scene.background = texture;
       }
@@ -122,7 +122,16 @@ function loadObj(path){
 
 function loadFloor(){
     geometry = new THREE.CubeGeometry(30, .4, 20);
-    material = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
+    /*var loader2 = new THREE.CubeTextureLoader();
+    var texture = loader2.load([
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg',
+        'textures/floorgrid.jpg'
+    ])*/
+    material = new THREE.MeshBasicMaterial({ color: 0xa9a9a9/*, envMap: texture */});
     var floor = new THREE.Mesh( geometry, material );
     floor.position.set(0, 0, 0);
     scene.add( floor );

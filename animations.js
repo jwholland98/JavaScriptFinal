@@ -1,7 +1,7 @@
 var pivot;
 
 function update(buttonNum, shapes, object){
-    //if (buttonNum == 1){
+    if (buttonNum == 1){
         for(var i = 0;i<shapes.length;i++){
             this.tl = new TimelineMax().delay(.3);
             this.tl.to(shapes[i].scale, 1, {z: 2, ease: Expo.easeOut})
@@ -10,13 +10,13 @@ function update(buttonNum, shapes, object){
             this.tl.to(shapes[i].rotation, .5, {z: shapes[i].rotation.z + Math.PI*.5, ease: Expo.easeOut})
             this.tl.to(shapes[i].position, 1, {z: -6, ease: Expo.easeOut})
         }
-    //}
-    //if (buttonNum == 2){
+    }
+    if (buttonNum == 2){
         object.rotation.y+=.01;
-    //}
-    //if (buttonNum == 3){
+    }
+    if (buttonNum == 3){
         pivot.rotation.z += .01;
-    //}
+    }
 }
 
 function play(renderer, scene, camera, shapes, object, buttonNum){
