@@ -1,7 +1,16 @@
 var pivot;
+var buttonNum = 1;
+var numAnimations = 3
 
-function update(buttonNum, shapes, object){
-    //if (buttonNum == 1){
+function incremementButtonNum(){
+    buttonNum++;
+    buttonNum =buttonNum % (numAnimations+1);
+    if(buttonNum == 0){buttonNum++;}
+}
+
+function update( shapes, object){
+    console.log(buttonNum);
+    if (buttonNum == 1){
         for(var i = 0;i<shapes.length;i++){
             this.tl = new TimelineMax().delay(.3);
             this.tl.to(shapes[i].scale, 1, {z: 2, ease: Expo.easeOut})
@@ -10,19 +19,19 @@ function update(buttonNum, shapes, object){
             this.tl.to(shapes[i].rotation, .5, {z: shapes[i].rotation.z + Math.PI*.5, ease: Expo.easeOut})
             this.tl.to(shapes[i].position, 1, {z: -6, ease: Expo.easeOut})
         }
-    //}
-    //if (buttonNum == 2){
+    }
+    if (buttonNum == 2){
         object.rotation.y+=.01;
-    //}
-    //if (buttonNum == 3){
+    }
+    if (buttonNum == 3){
         pivot.rotation.z += .01;
-    //}
+    }
 }
 
-function play(renderer, scene, camera, shapes, object, buttonNum){
+function play(renderer, scene, camera, shapes, object){
     renderer.setAnimationLoop( function () {
 
-        update(buttonNum, shapes, object)
+        update(shapes, object)
 
         renderer.render(scene, camera);
     });
