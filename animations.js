@@ -2,6 +2,7 @@ var pivot;
 var buttonNum = 0;
 var numAnimations = 3
 
+
 function incremementButtonNum(){
     buttonNum++;
     buttonNum = buttonNum % (numAnimations+1);
