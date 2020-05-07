@@ -9,7 +9,7 @@ function incremementButtonNum(){
 }
 
 function update( shapes, object){
-    console.log(buttonNum);
+    //console.log(buttonNum); //for debug purposes
     if (buttonNum == 1){
         for(var i = 0;i<shapes.length;i++){
             this.tl = new TimelineMax().delay(.3);
