@@ -1,9 +1,4 @@
-//just literally grab everything from three's modules
-//import { Bone } from './three/build/three.module.js';
-//import * as THREE from './three/build/three.module.js';
 import { VRButton } from './three/examples/jsm/webxr/CustomVRButton.js';
-//import { XRControllerobjectFactory } from './three/examples/jsm/webxr/XRControllerobjectFactory.js';
-//import {createController } from './buttonPusher.js'
 
 //________Global variables:_______
 
@@ -13,14 +8,9 @@ var scene, camera, renderer, cameraFixture;
 //makeShape & animations
 var geometry, material, shape;
 var shapes = new Array;
-//var buttonNum = 1;
-// var numAnimations = 3
 
 //createController
 var controller1, controller2;
-//  var cylinder, line;
-//  var controllerGrip1, controllerGrip2;
-//  var raycaster;
 
 //objectLoader:
 var myObj, loaded;
@@ -29,7 +19,6 @@ var myObj, loaded;
 function init(){   
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.xr.enabled = true;
-    //renderer.setClearColor("#858585");
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild(VRButton.createButton(renderer));
     
@@ -59,7 +48,6 @@ function init(){
     cameraFixture.add(camera);
     cameraFixture.add(controller1);
     cameraFixture.add(controller2);
-    //cameraFixture.position.set(2, 2, -1);
     scene.add( cameraFixture );
     //Orbit Controls:
     var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
@@ -153,8 +141,6 @@ function loadFloor(){
 }
 
 function main(){
-
-    var convenientSpot = new Vector3(-1.5,0.5,0.5); //if you ever wondered where Stephen's desk is located
     init();
     loadFloor();
     loadObj('models/human.obj');
