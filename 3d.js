@@ -142,9 +142,9 @@ function main(){
     createController(scene, renderer, cameraFixture, 0);
     loadBoxAnimation(scene, shapes);
     loadPivotAnimation(scene);
-    makeSign('Custom Animation\n     using GSAP', scene, -12, 9, -6);
-    makeSign('Custom Loaded\n        model', scene, -2.9, 9, -6);
-    makeSign('Objects rotating around\n     custom pivot point', scene, 6, 9, -6);
+    makeSign('Custom Animation\n     using GSAP', scene, -12, 9, -3, .15);
+    makeSign('Custom Loaded\n        Model', scene, -2.9, 9, -6, 0);
+    makeSign('Objects Rotating Around\n     Custom Pivot Point', scene, 6, 9, -6, -.15);
 
     function checkVariable() {//makes sure everything is loaded before going to animation loop
         if (loaded == true) {

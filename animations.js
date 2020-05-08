@@ -10,7 +10,7 @@ function incremementButtonNum(){
 
 function update( shapes, object){
     //console.log(buttonNum); //for debug purposes
-    if (buttonNum == 1){
+    if (buttonNum == 1){//Custom Animation using GSAP
         for(var i = 0;i<shapes.length;i++){
             this.tl = new TimelineMax().delay(.3);
             this.tl.to(shapes[i].scale, 1, {z: 2, ease: Expo.easeOut})
@@ -20,10 +20,10 @@ function update( shapes, object){
             this.tl.to(shapes[i].position, 1, {z: -6, ease: Expo.easeOut})
         }
     }
-    if (buttonNum == 2){
+    if (buttonNum == 2){//Custom Loaded Model Animation
         object.rotation.y+=.01;
     }
-    if (buttonNum == 3){
+    if (buttonNum == 3){//Objects Rotating Around Custom Pivot Point Animation
         pivot.rotation.z += .01;
     }
 }
@@ -44,7 +44,7 @@ function stop() {
   
 }
 
-function loadBoxAnimation(scene, shapes){
+function loadBoxAnimation(scene, shapes){//Loads Custom Animation using GSAP
     geometry = new THREE.CubeGeometry(.6, .6, .6);
     material = new THREE.MeshLambertMaterial( { color: 0x008080});
     meshX = -10;
@@ -57,7 +57,7 @@ function loadBoxAnimation(scene, shapes){
     }
 }
 
-function loadPivotAnimation(scene){
+function loadPivotAnimation(scene){//Loads Objects Rotating Around Custom Pivot Point Animation
     var Ncubes = new Array;
     var Ecubes = new Array;
     var Scubes = new Array;
@@ -108,7 +108,7 @@ function loadPivotAnimation(scene){
     }
 }
 
-function makeSign(text, scene, x, y, z){
+function makeSign(text, scene, x, y, z, rtate){
     var loader = new THREE.FontLoader();
     var geometry;
     loader.load( 'three/examples/fonts/helvetiker_regular.typeface.json', function ( font ) {
@@ -127,6 +127,7 @@ function makeSign(text, scene, x, y, z){
         material = new THREE.MeshLambertMaterial( { color: 0xff4500});
         sign = new THREE.Mesh( geometry, material );
         sign.position.set(x, y, z);
+        sign.rotation.y=Math.PI*rtate;
         scene.add(sign);
     } );
     
