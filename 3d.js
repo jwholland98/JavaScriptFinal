@@ -49,11 +49,13 @@ function init(){
     cameraFixture.add(controller1);
     cameraFixture.add(controller2);
     scene.add( cameraFixture );
-    //Orbit Controls:
-    var controls = new THREE.OrbitControls(cameraFixture, renderer.domElement);
+
+    //Orbit Controls for debugging outside of vr:
+    var controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDampening = true;
     controls.campingFactor = 0.25;
     controls.enableZoom = true;
+
     //Scene Lights:
     var light = new THREE.PointLight(0xffffff, .75, 1000);
     light.position.set(-50, 50,-50);
@@ -71,6 +73,7 @@ function init(){
     scene.add(keyLight);
     scene.add(fillLight);
     scene.add(backLight);
+
     //just something to resize page
     window.addEventListener('resize', () => {
         renderer.setSize( window.innerWidth, window.innerHeight );
@@ -118,24 +121,16 @@ function loadObj(path){
             console.log( 'An error happened' );
         }
     );
-
-    // load a resource from provided URL synchronously
-    // loader.load( path, callbackOnLoad, null, null, null );
 }
 
 function loadFloor(){
     var floorGeometry = new THREE.CubeGeometry(30, .4, 20);
-    var floorMaterial = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
+    //var floorMaterial = new THREE.MeshBasicMaterial( { color: 0xa9a9a9} );
+    const loader = new THREE.TextureLoader();
+    const floorMaterial = new THREE.MeshBasicMaterial({
+        map: loader.load('textures/floorgrid.jpg')
+    })
     var floor = new THREE.Mesh( floorGeometry, floorMaterial );
-    /*var loader2 = new THREE.CubeTextureLoader();
-    var texture = loader2.load([
-        'textures/floorgrid.jpg',
-        'textures/floorgrid.jpg',
-        'textures/floorgrid.jpg',
-        'textures/floorgrid.jpg',
-        'textures/floorgrid.jpg',
-        'textures/floorgrid.jpg'
-    ])*/
     floor.position.set(0, 0, 0);
     scene.add( floor );
 }
