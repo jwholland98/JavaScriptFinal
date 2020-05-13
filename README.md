@@ -16,3 +16,9 @@ The does take several minutes for it to load currently, so be patient. We curren
 If there are issues getting it to load, let us know and we can walk through the process.
 
 If you instead wish to forgo getting it to work on the phone, you can still use orbit controls on the desktop to see the models. If you wish to see the animations however, you will have to comment out the if statements in the animation loop in the animations.js file.
+
+Here is a demo video of the project working:
+
+https://coloradomesa.zoom.us/rec/share/9ZQyKJftzERLTafA2mHiCpF4NIj7X6a813Ud8_cOnh6l6PkNU7t0RhHAlcaqWU5P
+
+Password: 8D.$6&*1
